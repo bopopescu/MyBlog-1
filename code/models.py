@@ -1,7 +1,9 @@
 from app import app
 from datetime import datetime
 import re
+from flask_sqlalchemy import SQLAlchemy
 
+db = SQLAlchemy(app)
 
 def slugify(s):
     pattern = r'[^\w+]'
