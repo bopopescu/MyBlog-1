@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Create blog - Blueprint
+{% endblock %}
+
+{% block content_title %}
+    Create blog
+{% endblock %}
+
+{% block content %}
+
+    {% for post in posts %}
+        <p>
+            {{ post.title }}
+        </p>
+
+{% endblock %}

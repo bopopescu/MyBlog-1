@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    All posts
+{% endblock %}
+
+{% block content_title %}
+    Create blog
+{% endblock %}
+
+{% block content %}
+
+    {% for post in posts %}
+
+        <p>
+            <a href="{{ url_for('post_detail', slug=post.slug) }}">{{ post.title }}</a>
+        </p>
+
+    {% endfor %}
+{% endblock %}

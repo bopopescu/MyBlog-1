@@ -1,0 +1,158 @@
+import os
+from flask import Flask, render_template, redirect, url_for, flash, request, abort, g, session
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import relationship
+from flask_login import LoginManager, login_user, logout_user, current_user, login_required
+from datetime import datetime
+
+
+APP_DIR = os.path.dirname(os.path.realpath(__file__))
+
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///%s' % os.path.join(APP_DIR, 'blog.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = "random string"
+
+db = SQLAlchemy(app)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+
+class User(db.Model):
+    #__tablename__ = 'user'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(120), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(120), unique=False, nullable=False)
+    post = db.relationship('Post', backref='user', lazy='joined')
+
+    #def __init__(self, username, email, password):
+    #    self.username = username
+    #    self.email = email
+    #    self.password = password
+
+    #def is_authentificated(self):
+    #    return True
+
+    #def is_activate(self):
+    #    return True
+
+    #def is_anonimus(self):
+    #    return False
+
+    #def get_id(self):
+    #    return self.id
+
+
+class Post(db.Model):
+    #__tablename__ = 'post'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(50), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+
+#@login_manager.user_loader
+#def load_user(id):
+#    return User.query.get(int(id))
+
+
+@app.route('/')
+def index():
+#    p = Post.query.filter_by(id=4).one()
+#    print(p.user.username)
+#    return render_template('index.html', User=User.query.all())
+    return render_template('index.html')
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        if not request.form['username'] or not request.form['email'] or not request.form['password']:
+            flash('Please enter all the fields', 'error')
+        else:
+            user = User(request.form['username'], request.form['email'], request.form['password'])
+            db.session.add(user)
+            db.session.commit()
+            flash('Record was successfully added')
+            return redirect(url_for('login'))
+    return render_template('register.html', User=User.query.all())
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+    username = request.form['username']
+    password = request.form['password']
+    registered_user = User.query.filter_by(username=username, password=password).first()
+    if registered_user is None:
+        flash('Username or password is invalid')
+        return redirect(url_for('login'))
+    login_user(registered_user)
+    flash('Logged in successfully')
+    return redirect(url_for('index'), User=User.query.filter_by(id=registered_user.id).one())
+
+
+@app.route('/post', methods=['GET', 'POST'])
+@login_required
+def post():
+    if request.method == 'POST':
+        if not request.form['title'] or not request.form['content']:
+            flash('Please enter all the fields', 'error')
+        else:
+            post = Post(request.form['title'], request.form['content'], User.username)
+            db.session.add(post)
+            db.session.commit()
+            flash('Record was successfully added')
+            return redirect(url_for('index'))
+    if request.method == 'GET':
+        return render_template('post.html', Post.query.filter_by(id).one())
+
+
+@app.route('/see_all')
+@login_required
+def see_all():
+    p = Post.query.filter_by(id=current_user).one()
+    print(p.user.username)
+    return render_template('see_all.html', User=User.query.all())
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
+
+#@app.route('/authorize', methods=['GET', 'POST'])
+#def authorize():
+#    if request.method == 'POST':
+#        if not request.form['username'] or not request.form['email'] or not request.form['password']:
+#            flash('Please enter all the fields', 'error')
+#        else:
+#            user = User(request.form['username'], request.form['email'], request.form['password'])
+#            db.session.add(user)
+#            db.session.commit()
+#            flash('Record was successfully added')
+#            return redirect(url_for('post'))
+#    return render_template('authorize.html', User=User.query.all())
+
+
+if __name__ == '__main__':
+    db.create_all()
+    app.run(debug=True)
+
