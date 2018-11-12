@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy(app)
 
+
 def slugify(s):
     pattern = r'[^\w+]'
     return re.sub(pattern, '-', s)

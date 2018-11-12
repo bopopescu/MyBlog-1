@@ -2,10 +2,10 @@ from app import app, db
 from posts.blueprint import posts
 from flask import Flask, render_template
 
-print(posts)
 
-app = Flask(__name__)
+#app = Flask(__name__)
 app.register_blueprint(posts, url_prefix='/blog')
+
 
 @app.route('/')
 def index():

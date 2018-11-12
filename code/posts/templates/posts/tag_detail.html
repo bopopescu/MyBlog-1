@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    {{ tag.name }} posts
+{% endblock %}
+
+{% block content_title %}
+    Posts for  <button type="button" class="btn btn-dark">{{ tag.name }}</button> :
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="posts">
+        {% for post in posts %}
+            <a href="{{ url_for('posts.post_detail', slug=post.slug) }}">{{ post.title }}</a>
+        {% endfor %}
+    </div>
+
+{% endblock %}
