@@ -2,15 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <title>
 
         {% block title %}
 
         {% endblock %} | Flask app
 
     </title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
 </head>
 <body>
      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -26,16 +28,26 @@
                     <a class="nav-link" href="{{ url_for('posts.index') }}">See all blogs <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">About <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{{ url_for('posts.create_post') }}">Create post <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Contact <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{{ url_for('posts.register') }}"> Sign up <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav nav-item active">
+                <li>
+                    {% if current_user.has_role('admin') %}
+                        <a class="nav-link" href="/admin">Admin</a>
+                    {% endif %}
                 </li>
             </ul>
 

@@ -2,11 +2,11 @@
 
 
 {% block title %}
-    Create blog
+    Edit blog
 {% endblock %}
 
 {% block content_title %}
-    Create blog
+    Edit blog
 {% endblock %}
 
 
@@ -14,7 +14,7 @@
 
     <div class="col-md-offset-3 col-md-6">
 
-        <form action="{{ url_for('posts.create_post') }}" method="POST">
+        <form action="{{ url_for('posts.edit_post', slug=post.slug) }}" method="POST">
 
             {% for field in form %}
                 <div class="form-group">
@@ -23,7 +23,7 @@
                 </div>
             {% endfor %}
 
-            <button type="submit" class="btn btn-dark">Create</button>
+            <button type="submit" class="btn btn-dark">Edit</button>
         </form>
 
     </div>

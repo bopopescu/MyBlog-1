@@ -2,11 +2,11 @@
 
 
 {% block title %}
-    Create blog
+    Registation
 {% endblock %}
 
 {% block content_title %}
-    Create blog
+    Registration
 {% endblock %}
 
 
@@ -14,7 +14,7 @@
 
     <div class="col-md-offset-3 col-md-6">
 
-        <form action="{{ url_for('posts.create_post') }}" method="POST">
+        <form action="{{ url_for('posts.register') }}" method="POST">
 
             {% for field in form %}
                 <div class="form-group">
