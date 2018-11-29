@@ -10,3 +10,8 @@ class RegisterForm(Form):
     username = StringField('Username')
     email = StringField('Email')
     password = StringField('Password')
+
+
+class ContactForm(Form):
+    email = StringField('email')
+    body = TextAreaField('body')

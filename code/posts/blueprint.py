@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from models import Post, Tag, User
-from .forms import PostForm, RegisterForm
+from .forms import PostForm, RegisterForm, ContactForm
 from app import db
 
 from flask_security import login_required
@@ -36,7 +36,7 @@ def register():
         password = request.form['password']
 
         try:
-            user = User(username=username, email=email, password=password)
+            user = User(username=username, email=email, password=password, active=True)
             db.session.add(user)
             db.session.commit()
         except:
@@ -92,3 +92,20 @@ def tag_detail(slug):
     tag = Tag.query.filter(Tag.slug == slug).first_or_404()
     posts = tag.posts.all()
     return render_template('posts/tag_detail.html', posts=posts, tag=tag)
+
+
+@posts.route('/about', methods=['POST', 'GET'])
+def about():
+    if request.method == 'POST':
+        return redirect(url_for('index'))
+    return render_template('posts/about.html')
+
+
+@posts.route('/contact', methods=['POST', 'GET'])
+def contact():
+    if request.method == 'POST':
+        email = request.form['email']
+        body = request.form['body']
+        return redirect(url_for('index'))
+    form = ContactForm()
+    return render_template('posts/contact.html', form=form)

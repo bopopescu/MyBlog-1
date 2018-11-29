@@ -33,14 +33,17 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ url_for('posts.register') }}"> Sign up <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('security.login') }}"> Sign in <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/logout"> Sign out <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
+                    <a class="nav-link" href="{{ url_for('posts.contact') }}">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
+                    <a class="nav-link" href="{{ url_for('posts.about') }}">About</a>
                 </li>
             </ul>
             <ul class="navbar-nav nav-item active">
