@@ -8,6 +8,7 @@ from flask_security import login_required
 posts = Blueprint('posts', __name__, template_folder='templates')
 
 
+# page 'Create post'
 @posts.route('/create', methods=['POST', 'GET'])
 @login_required
 def create_post():
@@ -28,6 +29,7 @@ def create_post():
     return render_template('posts/create_post.html', form=form)
 
 
+# page 'Registration'
 @posts.route('/register', methods=['POST', 'GET'])
 def register():
     if request.method == 'POST':
@@ -48,6 +50,7 @@ def register():
     return render_template('posts/register.html', form=form)
 
 
+# page 'Edit post'
 @posts.route('/<slug>/edit/', methods=['POST', 'GET'])
 @login_required
 def edit_post(slug):
@@ -64,6 +67,7 @@ def edit_post(slug):
     return render_template('posts/edit_post.html', post=post, form=form)
 
 
+# page 'See all posts'
 @posts.route('/')
 def index():
     q = request.args.get('q')
@@ -80,6 +84,7 @@ def index():
     return render_template('posts/index.html', posts=posts, pages=pages)
 
 
+# page 'Title, tags and body of Post'
 @posts.route('/<slug>')
 def post_detail(slug):
     post = Post.query.filter(Post.slug == slug).first_or_404()
@@ -87,6 +92,7 @@ def post_detail(slug):
     return render_template('posts/post_detail.html', post=post, tags=tags)
 
 
+# page 'posts' title in Tags'
 @posts.route('/tag/<slug>')
 def tag_detail(slug):
     tag = Tag.query.filter(Tag.slug == slug).first_or_404()
@@ -94,6 +100,7 @@ def tag_detail(slug):
     return render_template('posts/tag_detail.html', posts=posts, tag=tag)
 
 
+# page 'About'
 @posts.route('/about', methods=['POST', 'GET'])
 def about():
     if request.method == 'POST':
@@ -101,6 +108,7 @@ def about():
     return render_template('posts/about.html')
 
 
+# page 'Contact'
 @posts.route('/contact', methods=['POST', 'GET'])
 def contact():
     if request.method == 'POST':

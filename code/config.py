@@ -1,6 +1,7 @@
 import os
 
 
+# configuration of database
 class Configuration(object):
     DEBUG = True
     APP_DIR = os.path.dirname(os.path.realpath(__file__))

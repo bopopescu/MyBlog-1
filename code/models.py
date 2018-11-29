@@ -12,12 +12,14 @@ def slugify(s):
     return re.sub(pattern, '-', s)
 
 
+# intermediate table between posts and tags (many to many)
 post_tags = db.Table('post_tags',
                     db.Column('post_id', db.Integer, db.ForeignKey('post.id')),
                     db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'))
     )
 
 
+# Post includes title, body, date and date of publishing
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(140))
@@ -38,6 +40,7 @@ class Post(db.Model):
         return '<Post id: {}, title: {}>'.format(self.id, self.title)
 
 
+# Tag includes name
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
@@ -55,12 +58,14 @@ class Tag(db.Model):
         return '{}'.format(self.name)
 
 
+# intermediate table between roles and users (many to many)
 roles_users = db.Table('roles_users',
                     db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
                     db.Column('role_id', db.Integer, db.ForeignKey('role.id'))
     )
 
 
+# User includes username, email and password
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True)
@@ -70,6 +75,7 @@ class User(db.Model, UserMixin):
     roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
 
 
+# Role includes name and description
 class Role(db.Model, RoleMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)
