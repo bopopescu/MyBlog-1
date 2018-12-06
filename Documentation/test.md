@@ -65,7 +65,7 @@
 
 <a name="6"></a>
 ## 6. Представление результатов
-Результаты тестирования представлены в документе ["Представление результатов"](https://github.com/ZaharchenyaVeronika/MyBlog/new/master/Documentation/test_results.md).
+Результаты тестирования представлены в документе ["Представление результатов"](https://github.com/ZaharchenyaVeronika/MyBlog/blob/master/Documentation/test_results.md).
 
 <a name="7"></a>
 ## 7. Вывод
