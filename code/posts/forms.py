@@ -1,4 +1,4 @@
-from wtforms import Form, StringField, TextAreaField
+from wtforms import Form, StringField, TextAreaField, PasswordField
 
 
 class PostForm(Form):
@@ -9,7 +9,7 @@ class PostForm(Form):
 class RegisterForm(Form):
     username = StringField('Username')
     email = StringField('Email')
-    password = StringField('Password')
+    password = PasswordField('Password')
 
 
 class ContactForm(Form):

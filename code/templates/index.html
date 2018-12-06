@@ -6,9 +6,22 @@
 {% endblock %}
 
 {% block content_title %}
-    Home page
+    <div class="container" style="text-align: center;">
+        <div class="central" style="width: 500px; margin: 0 auto;" >
+         My Blog
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block content %}
-    Some content
+     <img src="http://1.bp.blogspot.com/-34DfBGjhxFU/VNPE_d8KdpI/AAAAAAAALb4/SB9ygu1GDVw/s1600/Chanel%2Bby%2BJean%2BLeymaire%2BCoffee%2BTable%2BBook2.JPG" alt="Smiley face" height="100%" width="100%">
+
+     <div class="container" style="text-align: center;">
+        <div class="central" style="width: 500px; margin: 0 auto;" >
+            <h2>
+                <a  href="{{ url_for('posts.create_post') }}">Create post <span class="sr-only">(current)</span></a>
+            </h2>
+        </div>
+     </div>
 {% endblock %}

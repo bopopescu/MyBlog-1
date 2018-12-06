@@ -6,14 +6,19 @@
 {% endblock %}
 
 {% block content_title %}
-    About app
+    <div class="container" style="text-align: center;">
+        <div class="central" style="width: 500px; margin: 0 auto;" >
+         About app
+        </div>
+    </div>
+
 {% endblock %}
 
 
 {% block content %}
 
-    <div class="col-md-offset-3 col-md-6">
-
+    <div class="container" style="text-align: center;">
+        <div class="central" style=" margin: 0 auto;" >
          <form action="{{ url_for('posts.about') }}" method="POST">
              <h3>
                  Lorem ipsum dolor sit amet, consectetur adipiscing elit,
@@ -24,9 +29,12 @@
                  cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
              </h3>
-            <button type="submit" class="btn btn-dark">Return to Home page</button>
+            <p>
+                <a href="{{ url_for('index') }}">Return to Home page</a>
+            </p>
         </form>
 
+   </div>
     </div>
 
 {% endblock %}

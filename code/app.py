@@ -8,9 +8,18 @@ from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 
 from flask_security import SQLAlchemyUserDatastore, Security, current_user
+from flask_mail import Mail
 
 app = Flask(__name__)
 app.config.from_object(Configuration)
+app.config.update(
+    MAIL_SERVER='smtp.gmail.com',
+    MAIL_PORT=465,
+    MAIL_USE_TLS=False,
+    MAIL_USE_SSL=True,
+    MAIL_USERNAME='XXX@gmail.com',
+    MAIL_PASSWORD='XXX')
+mail = Mail(app)
 
 from models import db
 

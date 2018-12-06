@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from models import Post, Tag, User
 from .forms import PostForm, RegisterForm, ContactForm
-from app import db
+from app import db,mail
+from flask_mail import Message
 
 from flask_security import login_required
 
@@ -38,13 +39,14 @@ def register():
         password = request.form['password']
 
         try:
-            user = User(username=username, email=email, password=password, active=True)
-            db.session.add(user)
-            db.session.commit()
+            if username or email or password:
+                user = User(username=username, email=email, password=password, active=True)
+                db.session.add(user)
+                db.session.commit()
         except:
             print('Something goes wrong')
 
-        return redirect(url_for('posts.index'))
+        return redirect(url_for('index'))
 
     form = RegisterForm()
     return render_template('posts/register.html', form=form)
@@ -69,6 +71,7 @@ def edit_post(slug):
 
 # page 'See all posts'
 @posts.route('/')
+@login_required
 def index():
     q = request.args.get('q')
     page = request.args.get('page')
@@ -108,12 +111,23 @@ def about():
     return render_template('posts/about.html')
 
 
+@posts.route('/thanks', methods=['POST', 'GET'])
+def thanks():
+    if request.method == 'POST':
+        return redirect(url_for('index'))
+    return render_template('posts/sending_is_ok.html')
+
+
 # page 'Contact'
 @posts.route('/contact', methods=['POST', 'GET'])
 def contact():
     if request.method == 'POST':
         email = request.form['email']
         body = request.form['body']
-        return redirect(url_for('index'))
+        message = Message('MyBlog', sender=email, recipients=["zaharchenya.veronik@gmail.com"])
+        message.body = body
+        mail.send(message)
+        return redirect(url_for('posts.thanks'))
     form = ContactForm()
     return render_template('posts/contact.html', form=form)
+

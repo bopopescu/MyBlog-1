@@ -39,6 +39,9 @@ class Post(db.Model):
     def __repr__(self):
         return '<Post id: {}, title: {}>'.format(self.id, self.title)
 
+    def get_post(self, title):
+        return Post.query.filter_by(title=title).first()
+
 
 # Tag includes name
 class Tag(db.Model):
@@ -73,6 +76,9 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(255))
     active = db.Column(db.Boolean())
     roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
+
+    def get_user(self, username):
+        return User.query.filter_by(username=username).first()
 
 
 # Role includes name and description

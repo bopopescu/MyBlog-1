@@ -30,15 +30,8 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ url_for('posts.create_post') }}">Create post <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ url_for('posts.register') }}"> Sign up <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ url_for('security.login') }}"> Sign in <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/logout"> Sign out <span class="sr-only">(current)</span></a>
-                </li>
+
+
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('posts.contact') }}">Contact</a>
                 </li>
@@ -54,14 +47,34 @@
                 </li>
             </ul>
 
+            <ul class="navbar-nav nav-item active">
+                <li class="nav-item active">
+                    <a class="btn btn-outline-secondary" href="{{ url_for('posts.register') }}"> Sign up <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <ul class="navbar-nav nav-item active">
+                <li class="nav-item active">
+                    {% if current_user.is_anonymous %}
+                        <a class="btn btn-outline-secondary" href="{{ url_for('security.login') }}"> Sign in <span class="sr-only">(current)</span></a>
+                    {% endif %}
+                </li>
+            </ul>
+            <ul class="navbar-nav nav-item active">
+                <li class="nav-item active">
+                    {% if not current_user.is_anonymous %}
+                        <a class="btn btn-outline-secondary" href="/logout"> Sign out <span class="sr-only">(current)</span></a>
+                    {% endif %}
+                </li>
+            </ul>
+
             <form class="form-inline my-2 my-lg-0" method="GET">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q" value="{{ request.args.get('q', '') }}">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
     </nav>
-    <div class="container">
-        <div class="row">
+    <div class="container" >
+        <div class="central"  >
             <h1>
                 {% block content_title %}
 
